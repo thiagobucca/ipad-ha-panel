@@ -1,0 +1,9 @@
+alias: "iPad Panel - Reopen Tileboard"
+description: "Reopens Tileboard every 6 hours to ensure it stays open"
+mode: single
+triggers:
+  - trigger: time_pattern
+    hours: "/6"
+conditions: []
+actions:
+  - action: rest_command.ipad_open_tileboard

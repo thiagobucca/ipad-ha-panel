@@ -1,0 +1,314 @@
+/*
+ * Alarm Keypad Dashboard — Custom CSS
+ * Target: iPad Mini 1 (1024x768, landscape)
+ * Dark theme, physical keypad aesthetic
+ */
+
+/* =====================================================================
+ *  Hide TileBoard default UI
+ * ===================================================================== */
+
+.header,
+.pages-menu,
+.page,
+.-theme-homekit .header {
+  display: none !important;
+}
+
+body,
+html {
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #111113 !important;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =====================================================================
+ *  Keypad Root
+ * ===================================================================== */
+
+#alarm-keypad {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: #111113;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.ak-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 400px;
+  max-height: 740px;
+}
+
+/* =====================================================================
+ *  Status Area
+ * ===================================================================== */
+
+.ak-status-area {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.ak-status-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.ak-status {
+  font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* State colors */
+.ak-state-disarmed {
+  color: #34c759;
+}
+
+.ak-state-armed {
+  color: #ff9f0a;
+}
+
+.ak-state-arming {
+  color: #ff9f0a;
+}
+
+.ak-state-triggered {
+  color: #ff3b30;
+}
+
+.ak-state-unknown {
+  color: #8e8e93;
+}
+
+/* Triggered pulse — very lightweight, GPU only */
+.ak-state-triggered.ak-status {
+  -webkit-animation: ak-pulse 1.5s ease-in-out infinite;
+  animation: ak-pulse 1.5s ease-in-out infinite;
+}
+
+@-webkit-keyframes ak-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes ak-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* =====================================================================
+ *  PIN Display
+ * ===================================================================== */
+
+.ak-pin-area {
+  text-align: center;
+  margin-bottom: 20px;
+  min-height: 60px;
+}
+
+.ak-pin-display {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.ak-dot {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #555;
+  margin: 0 6px;
+}
+
+.ak-dot-filled {
+  background: #fff;
+  border-color: #fff;
+}
+
+.ak-feedback {
+  font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 14px;
+  color: #8e8e93;
+  margin-top: 8px;
+  min-height: 20px;
+}
+
+/* =====================================================================
+ *  Keypad Buttons
+ * ===================================================================== */
+
+.ak-keypad {
+  margin-bottom: 24px;
+}
+
+.ak-keypad-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.ak-keypad-row-bottom {
+  margin-bottom: 0;
+}
+
+.ak-btn {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.ak-btn-digit {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #2c2c2e;
+  color: #fff;
+  font-size: 36px;
+  font-weight: 300;
+  margin: 0 10px;
+  -webkit-transition: background 0.1s;
+  transition: background 0.1s;
+}
+
+.ak-btn-digit:active,
+.ak-btn-digit.ak-btn-active {
+  background: #48484a;
+}
+
+.ak-btn-zero {
+  /* Same size as other digit buttons */
+}
+
+/* =====================================================================
+ *  Action Buttons
+ * ===================================================================== */
+
+.ak-actions {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 10px;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.ak-btn-action {
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  -webkit-transition: opacity 0.1s;
+  transition: opacity 0.1s;
+  min-width: 110px;
+}
+
+.ak-btn-action:active,
+.ak-btn-action.ak-btn-active {
+  opacity: 0.6;
+}
+
+.ak-btn-arm-home {
+  background: #ff9f0a;
+  color: #000;
+}
+
+.ak-btn-arm-away {
+  background: #ff6b35;
+  color: #fff;
+}
+
+.ak-btn-disarm {
+  background: #34c759;
+  color: #000;
+}
+
+.ak-btn-clear {
+  background: #3a3a3c;
+  color: #fff;
+}
+
+/* =====================================================================
+ *  Responsive — Portrait fallback (768x1024)
+ * ===================================================================== */
+
+@media (orientation: portrait) {
+  .ak-container {
+    width: 360px;
+    max-height: 95%;
+  }
+
+  .ak-status-icon {
+    font-size: 40px;
+  }
+
+  .ak-status {
+    font-size: 24px;
+  }
+
+  .ak-btn-digit {
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+    margin: 0 8px;
+  }
+
+  .ak-keypad-row {
+    margin-bottom: 10px;
+  }
+
+  .ak-btn-action {
+    min-width: 90px;
+    padding: 0 16px;
+    font-size: 13px;
+    height: 48px;
+  }
+}

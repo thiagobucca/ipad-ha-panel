@@ -1,0 +1,16 @@
+alias: "iPad Panel - Wake"
+description: "Wakes the iPad screen when the Aqara sensor detects presence"
+mode: single
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.0x00158d0009ce1ced_occupancy
+    to: "on"
+conditions:
+  - condition: state
+    entity_id: input_boolean.ipad_tela_ligada
+    state: "off"
+actions:
+  - action: rest_command.ipad_wake
+  - action: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.ipad_tela_ligada

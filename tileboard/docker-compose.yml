@@ -1,0 +1,11 @@
+version: '2'
+services:
+  tileboard:
+    image: tileboard/tileboard:latest
+    container_name: tileboard
+    restart: unless-stopped
+    ports:
+      - 9237:80
+    volumes:
+      - ./config.js:/usr/share/nginx/html/config.js
+      - ./custom.css:/usr/share/nginx/html/styles/custom.css
