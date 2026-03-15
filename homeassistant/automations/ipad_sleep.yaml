@@ -1,0 +1,18 @@
+alias: "iPad Panel - Sleep"
+description: "Puts the iPad screen to sleep after 2 minutes without presence"
+mode: single
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.0x00158d0009ce1ced_occupancy
+    to: "off"
+    for:
+      minutes: 2
+conditions:
+  - condition: state
+    entity_id: input_boolean.ipad_tela_ligada
+    state: "on"
+actions:
+  - action: rest_command.ipad_sleep
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.ipad_tela_ligada

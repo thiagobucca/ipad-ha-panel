@@ -1,0 +1,35 @@
+# ============================================================
+# iPad Panel - Add to configuration.yaml
+# ============================================================
+# Replace 192.168.10.215 with your iPad's IP if different.
+#
+# If you already have rest_command: or input_boolean: sections
+# in your configuration.yaml, add only the content inside
+# them (without duplicating the root key).
+# ============================================================
+
+rest_command:
+  ipad_wake:
+    url: "http://192.168.10.215:9090/wake"
+    method: GET
+    timeout: 5
+
+  ipad_sleep:
+    url: "http://192.168.10.215:9090/sleep"
+    method: GET
+    timeout: 5
+
+  ipad_ping:
+    url: "http://192.168.10.215:9090/ping"
+    method: GET
+    timeout: 5
+
+  ipad_open_tileboard:
+    url: "http://192.168.10.215:9090/open"
+    method: GET
+    timeout: 5
+
+input_boolean:
+  ipad_tela_ligada:
+    name: "iPad Panel - Screen On"
+    icon: mdi:tablet-dashboard
