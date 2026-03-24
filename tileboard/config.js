@@ -116,6 +116,8 @@ function initAlarmKeypad(ctx) {
   var buttons = root.querySelectorAll('[data-digit]');
   var actionButtons = root.querySelectorAll('[data-action]');
   var clearBtn = document.getElementById('ak-clear');
+  var armBtns = root.querySelectorAll('[data-action="arm_home"], [data-action="arm_away"]');
+  var disarmBtn = root.querySelector('[data-action="disarm"]');
 
   // --- Attach event listeners ---
   for (var i = 0; i < buttons.length; i++) {
@@ -165,14 +167,24 @@ function initAlarmKeypad(ctx) {
     onClear();
   }, false);
 
-  // --- State polling (lightweight, every 1s) ---
-  setInterval(function () {
-    var entity = ctx.states[ALARM_ENTITY_ID];
-    if (entity && entity.state !== currentState) {
-      currentState = entity.state;
-      updateStatusDisplay();
+  // --- State polling (every 5s, with cleanup on unload) ---
+  var pollTimer = setInterval(function () {
+    try {
+      var entity = ctx.states[ALARM_ENTITY_ID];
+      if (entity && entity.state !== currentState) {
+        currentState = entity.state;
+        updateStatusDisplay();
+      }
+    } catch (e) {
+      // Prevent polling errors from crashing the page
     }
-  }, 1000);
+  }, 5000);
+
+  // Cleanup on page unload to free memory
+  window.addEventListener('beforeunload', function () {
+    clearInterval(pollTimer);
+    if (feedbackTimer) clearTimeout(feedbackTimer);
+  }, false);
 
   // --- Initial state ---
   var initEntity = ctx.states[ALARM_ENTITY_ID];
@@ -213,11 +225,24 @@ function initAlarmKeypad(ctx) {
 
     showFeedback('Sending...');
 
-    ctx.api.callService('alarm_control_panel', service, data, function () {
-      pinCode = '';
-      updatePinDisplay();
-      showFeedback('');
-    });
+    // Timeout safety: clear feedback if API never responds
+    var apiTimeout = setTimeout(function () {
+      showFeedback('Error');
+      setTimeout(function () { showFeedback(''); }, 2000);
+    }, 10000);
+
+    try {
+      ctx.api.callService('alarm_control_panel', service, data, function () {
+        clearTimeout(apiTimeout);
+        pinCode = '';
+        updatePinDisplay();
+        showFeedback('');
+      });
+    } catch (e) {
+      clearTimeout(apiTimeout);
+      showFeedback('Error');
+      setTimeout(function () { showFeedback(''); }, 2000);
+    }
   }
 
   // --- Display updates ---
@@ -242,10 +267,8 @@ function initAlarmKeypad(ctx) {
     var icon = icons[currentState] || 'mdi-shield-outline';
     elStatusIcon.className = 'mdi ' + icon + ' ak-status-icon ' + cls;
 
-    // Update action button visibility
+    // Update action button visibility (use cached elements)
     var isDisarmed = currentState === 'disarmed';
-    var armBtns = root.querySelectorAll('[data-action="arm_home"], [data-action="arm_away"]');
-    var disarmBtn = root.querySelector('[data-action="disarm"]');
 
     for (var i = 0; i < armBtns.length; i++) {
       armBtns[i].style.display = isDisarmed ? '' : 'none';
