@@ -6,6 +6,9 @@ services:
     restart: unless-stopped
     ports:
       - 9237:80
+    entrypoint: /entrypoint.sh
     volumes:
+      - ./entrypoint.sh:/entrypoint.sh
       - ./config.js:/usr/share/nginx/html/config.js
+      - ./secrets.js:/usr/share/nginx/html/secrets.js
       - ./custom.css:/usr/share/nginx/html/styles/custom.css

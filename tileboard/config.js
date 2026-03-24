@@ -15,8 +15,7 @@ var CONFIG = {
   tileMargin: 0,
   serverUrl: 'http://' + location.hostname + ':8123',
   wsUrl: 'ws://' + location.hostname + ':8123/api/websocket',
-  authToken:
-    'REMOVED_TOKEN',
+  authToken: window.HA_AUTH_TOKEN || '',
   groupsAlign: GROUP_ALIGNS.HORIZONTALLY,
   pingConnection: true,
   locale: 'en',
